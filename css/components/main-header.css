@@ -1,0 +1,30 @@
+.main-header {
+    background-color: orange;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: auto;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-nav li {
+    width: 4em;
+    height: 80px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-nav li>* {
+    text-decoration: none;
+    color: whitesmoke;
+}
