@@ -1,9 +1,32 @@
 'use strict'
 let gGallery = []
-
+let gSortedGallery = []
+let gKeyWords = []
 
 function getGallery() {
     return gGallery
+}
+
+function getSortedGallery() {
+    return gSortedGallery
+}
+
+function getKeyWords(value) {
+    gGallery.forEach(img => {
+        let keywords = img.keywords
+        keywords.forEach(word => {
+            gKeyWords.push(word)
+            if (value.toLowerCase() === word) {
+                gSortedGallery.push(img)
+                return
+            }
+        })
+    })
+    renderImgs(getSortedGallery())
+}
+
+function getKeywords() {
+    return gKeyWords
 }
 
 function _createPictures() {

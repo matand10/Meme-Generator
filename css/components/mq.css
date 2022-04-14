@@ -1,0 +1,88 @@
+/* MOBILE  */
+
+@media (max-width: 640px) {
+    .main-header {
+        position: fixed;
+        width: 100%;
+        z-index: 1;
+        height: 50px;
+        padding: 1rem;
+    }
+
+    .main-header .main-nav {
+        background-color: var(--clr2);
+        font-size: 1.5rem;
+        position: absolute;
+        bottom: 0;
+        transform: translate(-100%, 100%);
+        width: 100%;
+        flex-direction: column;
+        left: 100%;
+        overflow: hidden;
+        justify-content: flex-end;
+        max-height: 0;
+        transition: max-height .2s;
+    }
+
+    body.menu-open .main-header .main-nav {
+        max-height: 100vh;
+    }
+
+    .off {
+        display: block;
+    }
+
+    .menu {
+        padding: 80px 1.6rem 40px
+    }
+
+
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    }
+
+    .btn-toggle-menu {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        color: white;
+        font-size: 1.2em;
+    }
+
+    .canvas-container {
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    #my-canvas {
+        width: 350px;
+        height: 350px;
+    }
+
+
+}
+
+
+/* SMALL  */
+@media (min-width: 641px) {
+    .canvas-container {
+        margin: auto;
+        flex-wrap: wrap;
+    }
+}
+
+
+/* MEDIUM */
+@media (min-width: 780px) {
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    }
+}
+
+
+/* DESKTOP  */
+@media (min-width: 1020px) {
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    }
+}

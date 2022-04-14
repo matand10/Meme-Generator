@@ -1,8 +1,12 @@
 .main-footer {
+    margin-top: auto;
+    width: 100%;
     background-color: var(--clr2);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
+    gap: 30px;
     height: 200px;
+    padding: 40px 0;
 }

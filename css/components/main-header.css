@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&display=swap');
+
 .main-header {
     background-color: orange;
     display: flex;
@@ -5,8 +7,10 @@
     align-items: center;
 }
 
-.logo h1 {
+.logo img {
     margin: auto;
+    width: 10em;
+    object-fit: cover;
 }
 
 .main-nav {
@@ -27,4 +31,17 @@
 .main-nav li>* {
     text-decoration: none;
     color: whitesmoke;
+}
+
+.main-nav li a {
+    transition: font-size .2s;
+}
+
+.off {
+    display: none;
+}
+
+.main-nav li a:hover {
+    text-decoration: underline;
+    font-size: large;
 }

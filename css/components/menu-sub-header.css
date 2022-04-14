@@ -2,9 +2,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    margin: 0;
 }
 
 .sort-container>* {
     font-size: 2rem;
+}
+
+.search {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
 }
