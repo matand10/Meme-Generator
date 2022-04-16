@@ -1,16 +1,22 @@
 'use strict'
 
-let gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
-
-
 function init() {
+    if (loadFromStorage(SAVED_MEME)) gSavedMemes = loadFromStorage(SAVED_MEME)
     gElCanvas = document.querySelector('#my-canvas')
     gCtx = gElCanvas.getContext('2d')
     const gallery = getGallery()
+    addMouseListeners()
+    addTouchListeners()
     _createPictures()
     renderImgs(gallery)
     onGallerySort()
     renderCanvas()
+    renderEmojies()
+    mapKeywords()
+    countWordApperances()
+    renderMapWords()
+    getMostPoplularWords()
+    setWordSize()
 }
 
 function toggleMenu() {

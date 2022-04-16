@@ -14,7 +14,10 @@
 @import 'components/main-content.css';
 @import 'components/saved-imgs.css';
 @import 'components/main-footer.css';
+@import 'components/modals.css';
 @import 'components/mq.css';
 
 /* FEATURES */
 @import 'features/hamburger.css';
+@import 'features/emojies.css';
+@import 'features/popular-words.css';

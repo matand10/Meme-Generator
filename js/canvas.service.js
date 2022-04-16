@@ -18,44 +18,47 @@ let gMeme = {
             height: 50,
             width: gElCanvas.width / 2,
             color: 'black',
-            font: 'Montserrat'
-            // pos: { x: 10, y: 50 },
-            // isDrag: false
+            font: 'Montserrat',
+            pos: { x: gElCanvas.width / 2, y: 50 },
+            isDrag: false
         },
 
         {
-            txt: 'I somet',
+            txt: 'I love Laznia',
             size: 30,
             align: 'center',
             height: 400,
             width: gElCanvas.width / 2,
-            color: 'black',
-            font: 'Montserrat'
-            // pos: { x: 10, y: 400 },
-            // isDrag: false
+            color: 'red',
+            font: 'Montserrat',
+            pos: { x: gElCanvas.width / 2, y: 400 },
+            isDrag: false
         },
     ]
 }
 
-function moveText(direction) {
+function setText(direction) {
     let lineNum = gMeme.selectedLineIdx
-    let currLine = gMeme.lines[lineNum]
+    let currLine = gMeme.lines[lineNum].pos
+
     if (direction === 'down') {
-        currLine.height += 10
+        currLine.y += 10
     } else if (direction === 'up') {
-        currLine.height -= 10
+        currLine.y -= 10
     } else if (direction === 'right') {
-        currLine.width += 10
+        currLine.x += 10
     } else if (direction === 'left') {
-        currLine.width -= 10
+        currLine.x -= 10
     }
 }
 
+
 function checkAlignFocus() {
     let lineNum = gMeme.selectedLineIdx
+    if (lineNum === -1) return
     let txt = gMeme.lines[lineNum].txt
-    let x = gMeme.lines[lineNum].width
-    let y = gMeme.lines[lineNum].height
+    let x = gMeme.lines[lineNum].pos.x
+    let y = gMeme.lines[lineNum].pos.y
 
     switch (gMeme.lines[lineNum].align) {
         case 'center':
@@ -79,13 +82,21 @@ function getMeme() {
     return gMeme
 }
 
+function getSavedMemes() {
+    return gSavedMemes
+}
+
 function setLineText(txt) {
     let lineNum = gMeme.selectedLineIdx
+    let currSavedMeme = getCurrSavedMeme()
+    if (gElCurrSavedMeme) currSavedMeme.lines[lineNum].txt = txt
     gMeme.lines[lineNum].txt = txt
 }
 
 function setTextColor(color) {
     let lineNum = gMeme.selectedLineIdx
+    let currSavedMeme = getCurrSavedMeme()
+    if (gElCurrSavedMeme) currSavedMeme.lines[lineNum].color = color
     gMeme.lines[lineNum].color = color
 }
 
@@ -93,10 +104,21 @@ function setTextSize(size) {
     let lineNum = gMeme.selectedLineIdx
     if (gMeme.lines[lineNum].size > 60) gMeme.lines[lineNum].size = 60
     if (gMeme.lines[lineNum].size < 20) gMeme.lines[lineNum].size = 20
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        if (currSavedMeme.lines[lineNum].size > 60) currSavedMeme.lines[lineNum].size = 60
+        if (currSavedMeme.lines[lineNum].size < 20) currSavedMeme.lines[lineNum].size = 20
+        currSavedMeme.lines[lineNum].size += size
+    }
     gMeme.lines[lineNum].size += size
 }
 
 function setLine() {
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.selectedLineIdx++
+        if (currSavedMeme.selectedLineIdx >= currSavedMeme.lines.length) currSavedMeme.selectedLineIdx = 0
+    }
     gMeme.selectedLineIdx++
     if (gMeme.selectedLineIdx >= gMeme.lines.length) gMeme.selectedLineIdx = 0
 }
@@ -107,11 +129,19 @@ function setFocus() {
 
 function deleteLine() {
     let lineNum = gMeme.selectedLineIdx
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.lines.splice(lineNum, 1)
+    }
     gMeme.lines.splice(lineNum, 1)
 }
 
 function changeTextFont(font) {
     let lineNum = gMeme.selectedLineIdx
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.lines[lineNum].font = font
+    }
     gMeme.lines[lineNum].font = font
 }
 
@@ -122,7 +152,9 @@ function saveImg() {
         selectedLineIdx,
         lines
     }
-    gSavedMemes.push(savedMeme)
+    let currSavedMeme = getCurrSavedMeme()
+    if (gElCurrSavedMeme) gSavedMemes.push(currSavedMeme)
+    else gSavedMemes.push(savedMeme)
     saveToStorage(SAVED_MEME, gSavedMemes)
 }
 
@@ -135,44 +167,63 @@ function _createLine() {
         height: 250,
         width: gElCanvas.width / 2,
         color: getRandomColor(),
-        font: 'Montserrat'
+        font: 'Montserrat',
+        pos: { x: gElCanvas.width / 2, y: 250 },
+        isDrag: false
+    }
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.lines.push(line)
+    }
+    lines.push(line)
+}
+
+function createEmojiLine(emoji) {
+    let lines = gMeme.lines
+    let line = {
+        txt: emoji,
+        size: 30,
+        align: 'center',
+        height: 250,
+        width: gElCanvas.width / 2,
+        pos: { x: gElCanvas.width / 2, y: 250 },
+        isDrag: false
+    }
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.lines.push(line)
     }
     lines.push(line)
 }
 
 function changeAlignment() {
     let lineNum = gMeme.selectedLineIdx
+    if (gElCurrSavedMeme) {
+        let currSavedMeme = getCurrSavedMeme()
+        currSavedMeme.lines[lineNum].width = gElCanvas.width / 2
+    }
     gMeme.lines[lineNum].width = gElCanvas.width / 2
 }
 
-// function isTextClicked(clickedPos) {
-//     let lineNum = gMeme.selectedLineIdx
-//     let txt = gMeme.lines[lineNum].txt
-//     let x = gElCanvas.width / 2
-//     let y = gMeme.lines[lineNum].height
-//     // center - x - gCtx.measureText(txt).width / 2, y - parseInt(gCtx.font) * 1.5, gCtx.measureText(txt).width, parseInt(gCtx.font) * 2
+function isTextClicked(clickedPos) {
+    let lineNum = gMeme.selectedLineIdx
+    const { x, y } = gMeme.lines[lineNum].pos
+    // if (clickedPos.y - y > 30 || y - clickedPos.y > 30) return false
+    const distance = (x - clickedPos.x) + (y - clickedPos.y)
+    return distance <= gMeme.lines[lineNum].size
+}
 
 
-//     const pos = { x, y }
-//     console.log('pos', pos);
-//     const distance = pos.x * pos.y
-//     console.log(distance);
-//     // return distance <= gCircle.size
+function setTextDrag(isDrag) {
+    let lineNum = gMeme.selectedLineIdx
+    gMeme.lines[lineNum].isDrag = isDrag
+}
 
-
-// }
-
-
-// function setTextDrag(isDrag) {
-//     let lineNum = gMeme.selectedLineIdx
-//     gMeme.lines[lineNum].isDrag = isDrag
-// }
-
-// function moveText(dx, dy) {
-//     let lineNum = gMeme.selectedLineIdx
-//     gMeme.lines[lineNum].pos.x += dx
-//     gMeme.lines[lineNum].pos.y += dy
-// }
+function setMoveText(dx, dy) {
+    let lineNum = gMeme.selectedLineIdx
+    gMeme.lines[lineNum].pos.x += dx
+    gMeme.lines[lineNum].pos.y += dy
+}
 
 
 function getRandomColor() {
@@ -183,3 +234,4 @@ function getRandomColor() {
     }
     return color;
 }
+

@@ -1,7 +1,31 @@
 'use strict'
+const POPULAR_WORDS = 'popularWordsDB'
+
+let gCurrSavedMeme
+let gElCurrSavedMeme
 let gGallery = []
 let gSortedGallery = []
 let gKeyWords = []
+let gWordMap = {}
+let gWordMostPopularMap
+
+function saveSize(mostPopular) {
+    saveToStorage(POPULAR_WORDS, mostPopular)
+}
+
+function getCurrElSavedMeme() {
+    return gElCurrSavedMeme
+}
+
+function getCurrSavedMeme() {
+    return gCurrSavedMeme
+}
+
+
+function getMostPoplularWords() {
+    gWordMostPopularMap = getMostPoplularObject()
+    return gWordMostPopularMap
+}
 
 function getGallery() {
     return gGallery
@@ -10,6 +34,21 @@ function getGallery() {
 function getSortedGallery() {
     return gSortedGallery
 }
+
+function getMapWords() {
+    return gWordMap
+}
+
+function getPupolarWords() {
+    const wordsMap = getMapWords()
+    let pupolarWords = []
+    for (let key in wordsMap) {
+        if (wordsMap[key] >= 3) pupolarWords.push(key)
+        // pupolarWords.push(key)
+    }
+    return pupolarWords
+}
+
 
 function getKeyWords(value) {
     gGallery.forEach(img => {
@@ -22,7 +61,37 @@ function getKeyWords(value) {
             }
         })
     })
-    renderImgs(getSortedGallery())
+    renderImgs(gSortedGallery)
+}
+
+function filterObject(obj, callback) {
+    return Object.fromEntries(Object.entries(obj).
+        filter(([key, val]) => callback(val, key)));
+}
+
+function getMostPoplularObject() {
+    let words = gWordMap
+    return filterObject(words, (a) => a >= 3)
+}
+
+function countWordApperances() {
+    for (var i = 0; i < gSortedGallery.length; i++) {
+        var currWord = gSortedGallery[i]
+        if (!gWordMap[currWord]) gWordMap[currWord] = 0
+        gWordMap[currWord]++
+    }
+    return gWordMap
+}
+
+
+function mapKeywords() {
+    gGallery.forEach(img => {
+        let keywords = img.keywords
+        keywords.forEach(word => {
+            gKeyWords.push(word)
+            gSortedGallery.push(word)
+        })
+    })
 }
 
 function getKeywords() {

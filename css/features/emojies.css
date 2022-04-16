@@ -1,0 +1,36 @@
+.emjoys-panel {
+    display: inline;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    height: 2rem;
+}
+
+.emojy-container {
+    display: flex;
+    border: 3px solid lightslategray;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+}
+
+.emjoys-panel p {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.emojy-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: wheat;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background-color .2s;
+}
+
+.emojy-btn:hover {
+    background-color: rgb(245, 206, 134);
+
+}
