@@ -196,9 +196,7 @@ function onEdit() {
 }
 
 function onMoveText(direction) {
-    // console.log(direction);
     setText(direction)
-    // setMoveText(direction)
     renderMeme()
 }
 
@@ -316,6 +314,7 @@ function addMouseListeners() {
 
 function addTouchListeners() {
     gElCanvas.addEventListener('dblclick', isLineClicked)
+    gElCanvas.addEventListener('touchstart', onPicture)
     gElCanvas.addEventListener('touchstart', onDown)
     gElCanvas.addEventListener('touchmove', onMove)
     gElCanvas.addEventListener('touchend', onUp)
