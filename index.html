@@ -36,7 +36,18 @@
     <section class="menu main-layout">
         <div class="search-bar">
             <label for="search-input">
-                <input type="search" class="search" data-search placeholder="Enter search keyword">
+                <!-- <input type="search" class="search" data-list="cat" data-search placeholder="Enter search keyword"> -->
+                <label for="memes"></label>
+                <input list="memes" id="ice-cream-choice" data-search name="memes" data-search
+                    placeholder="Enter search keyword" />
+
+                <datalist id="memes">
+                    <option value="dog">
+                    <option value="cat">
+                    <option value="funny">
+                    <option value="men">
+                    <option value="movie">
+                </datalist>
                 <i class="fas fa-search"></i>
             </label>
         </div>
